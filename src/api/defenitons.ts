@@ -1,9 +1,9 @@
 export interface HandleDataInterface {
-  reduce(): string;
+  calculate(): string;
 }
 
-export interface FunctionReduceInterface {
-  (previous: number, current: number): string;
+export interface FunctionCalculatorInterface {
+  (previousTime: number, currentTime: number): string;
 }
 
 export enum Operation {

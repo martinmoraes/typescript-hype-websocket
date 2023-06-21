@@ -1,7 +1,10 @@
-import { FunctionReduceInterface } from '../defenitons';
+import { FunctionCalculatorInterface } from '../defenitons';
 
-export const newFormulaReducer: FunctionReduceInterface = (previous: number, current: number): string => {
-  const x = current - previous;
+export const newFormulaCalculator: FunctionCalculatorInterface = (
+  previousTime: number,
+  currentTime: number,
+): string => {
+  const x = currentTime - previousTime;
 
   const PI500 = Math.PI * (x / 500);
   const PI250 = Math.PI * (x / 250);

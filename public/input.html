@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate</title>
+    <style>
+
+    form {
+      width: 600px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+    }
+
+    p {
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      line-height: 1.5;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <form onsubmit="defineInterval(event)">
+    <h1>Generate Sinal</h1>
+    <p>Inform the data below. </p>
+    <p>The sum of the two values ​​must be between 60 and 120. Represents bpm</p>
+    <label for="lower_limit">Lower limit:</label>
+    <input type="text" id="lower_limit" name="lower_limit" placeholder="Enter the lower limit. Recommended: 60 bpm">
+
+    <label for="variation">Variation:</label>
+    <input type="text" id="variation" name="variation" placeholder="Report the upper variance.  Recommended: 40 bpm">
+
+    <button id="btStart" type="submit">Start</button>
+    <button id="btStop" type="button" onclick="stopSendMessage()">Stop</button>
+  </form>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:8100?operation=input'); 
+
+    socket.onopen = function(event) {
+      socket.send('{"type": "beat"}');      
+    };
+
+    let idInterval;
+    
+    function defineInterval(){
+      event.preventDefault();
+      const lowerLimit = parseInt(document.getElementById("lower_limit").value);
+      const variation = parseInt(document.getElementById("variation").value);
+
+      const total = lowerLimit + variation;
+
+      if(total >= 60 && total <= 120 ){
+        this.sendMessage(lowerLimit, variation);
+      } else {
+        alert("Correctly fill in the fields")
+      }
+    }
+
+    function sendMessage(lowerLimit, variation){
+      const randomVariation = Math.random() * variation;
+      const interval = Math.floor(60000 / (randomVariation  + lowerLimit));
+      idInterval = setTimeout(()=>{
+         socket.send('{"type": "beat"}');
+         console.log( interval, variation, lowerLimit)
+         this.sendMessage(lowerLimit, variation);
+       }, interval)
+      
+    }
+
+    function stopSendMessage(){
+      clearInterval(idInterval);
+    }
+  
+  </script>
+</body>
+</html>

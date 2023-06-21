@@ -1,20 +1,20 @@
-import { FunctionReduceInterface, HandleDataInterface } from './defenitons';
+import { FunctionCalculatorInterface, HandleDataInterface } from './defenitons';
 
 export class HeartBeatsService implements HandleDataInterface {
   previousTime = Date.now();
-  reducer: FunctionReduceInterface;
+  Calculator: FunctionCalculatorInterface;
 
-  constructor(reducer: FunctionReduceInterface) {
-    this.reducer = reducer;
+  constructor(Calculator: FunctionCalculatorInterface) {
+    this.Calculator = Calculator;
   }
 
-  public reduce(): string {
+  public calculate(): string {
     const currentTime = Date.now();
 
-    const resultReducer = this.reducer(this.previousTime, currentTime);
+    const resultCalculator = this.Calculator(this.previousTime, currentTime);
 
     this.previousTime = currentTime;
 
-    return resultReducer;
+    return resultCalculator;
   }
 }
