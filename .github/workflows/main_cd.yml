@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy HBM
 
 on: 
   push:
@@ -8,8 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  CD:
     runs-on: ubuntu-latest
 
     steps:
