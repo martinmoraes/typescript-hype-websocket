@@ -117,7 +117,9 @@ Quando o sistema inicia, são executados os seguinte passos:
 ## Outras tecnologias
 
 - **Express**: Framework para desenvolvimento de aplicações web em Node.js. Ele fornece uma camada de abstração sobre o servidor HTTP do Node.js.
+- **WebSocket**: Fornece uma comunicação online e automática.
 - **NodeJS**: Ambiente de tempo de execução de código aberto baseado no motor JavaScript V8 do Google Chrome. Ele permite que você execute JavaScript no lado do servidor.
+- **TypeScript**: Válido pela tipagem estática, que permite especificar tipos para variáveis, parâmetros de função e valores de retorno. Isso ajuda a detectar erros relacionados a tipos durante o desenvolvimento e fornece uma melhor documentação e compreensão do código.
 - **NPM**: Node Package Manager é o gerenciador de pacotes padrão para o ecossistema do Node.js. Ele permite que os desenvolvedores instalem, gerenciem e compartilhem pacotes de código reutilizáveis ​​(módulos) para seus projetos.
 - **Jest**: Framework de teste de código aberto para JavaScript, projetado principalmente para testar aplicativos e bibliotecas do Node.js.
 - **winston**: Biblioteca de registro (logging) para o Node.js. Ela fornece uma interface flexível e extensível para registrar mensagens e eventos nos aplicativos Node.js.
