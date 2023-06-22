@@ -85,11 +85,11 @@ Quando o sistema inicia, são executados os seguinte passos:
 ### Dados de input / output
 
 - **input**: Os batimentos cardíacos são simulados por um agente externo, neste protótipo, o agente externo é um cliente WebSocket. Cada mensgem recebida de uma conexao de input, simula um batimento cardíaco.
-    - Um **cliente de input** indica na URL de conexão (ws://url_servidor_api:8100?**operation=input**), seu papel de "input".
+    - Um **cliente de input** indica na URL de conexão (ws://url_servidor_api:3000?**operation=input**), seu papel de "input".
     As mensagens enviada devem ser com um payload em JSON contendo {"type": "beat"}. 
     A cada mensagem recebida/batimento cardíaco, são realizados os cálculos, e o resultado é enviado a todos os clientes de output.
 - O **output** é um objeto JSON que contem x e y. **X** é o tempo em milisegundos entre o último batimento cardíaco e o anterior. **Y** é o valor resultante da fórmula em "Calculator".
-    - Um **cliente de output** indica na URL de conexão (ws://url_servidor_api:8100?**operation=output**), seu papel de "output".
+    - Um **cliente de output** indica na URL de conexão (ws://url_servidor_api:3000?**operation=output**), seu papel de "output".
     A cada batimento cardíaco recebem um objeto JSON de **output**. O sistema suporta vários clientes de output.
 
 <br>
@@ -122,99 +122,82 @@ Quando o sistema inicia, são executados os seguinte passos:
 - **ts-node-dev**: É uma ferramenta que agiliza o desenvolvimento, pois economiza tempo e esforço ao automatizar o processo de reinicialização do servidor sempre que necessário.
 
 # Instalação
+Os e
 
+## Obtendo o projeto
 Passo 1: Clone o projeto. Na sua pasta de projetos execute o seguinte comando.
 
 ```
-git clone https://github.com/martinmoraes/sfc.git
+git clone https://github.com/martinmoraes/hbm.git
 ```
 
 Passo 2: Instale as dependências. Na pasta raiz do projeto, execute os seguintes comando.
 
 ```
-cd sfc
+cd hbm
 npm install
+```
+
+## Criação das variáveis de ambiente
+
+Criar o arquivo **.env**, na raiz do projeto, com o seguinte conteudo
+
+P.S.: A variável de ambiente "LOG_DIR" deve conter o path completo para a pasta "log", ou se o seu sistema operacional suportar LOG_DIR=~/log.
+
+```
+LOG_DIR=./log
+PORT=3000
 ```
 
 ## Execução em modo de produção
 
-Passo 1: Iniciar a aplicação - Ainda na pasta raiz do projeto execute o comando abaixo.
-
-Obs.:
-
-- É necessário ter instalado o Docker e Docker-compose.
-- Certifique-se que nenhum serviço ou container esteja utilizando as portas 3001 e 27017.
-- Se estiver executando o Docker da seção "Execução em modo desenvolvimento", execute o passo 5 da referida seção.
+Iniciar a aplicação - Ainda na pasta raiz do projeto execute o comando abaixo.
 
 ```
-docker-compose up -d
-```
-
-Passo 2: Parar a aplicação - Para parar a aplicação, estando na pasta raiz do projeto execute o seguinte comando.
-
-```
-docker-compose stop
+npm run start:prod
 ```
 
 ## Execução em modo desenvolvimento
 
-Passo 1: Criar o arquivo .env, na raiz do projeto, com o seguinte conteudo
-
-P.S.: A variável de ambiente "LOG_DIR" deve conter o path completo para a pasta "log".
-
-```
-APP_PORT=3001
-
-MONGO_HOST=mongodb://admin:admin@localhost:27017/?authMechanism=DEFAULT
-MONGO_DATABASE=mttechne
-MONGO_POOLSIZE=5
-
-LOG_DIR=~/log
-```
-
-Passo 2: MongoDB em Docker - Para executar o MongoDB em um Docker, execute o comando abaixo.
-
-Obs.:
-
-- É necessário ter instalado o Docker e Docker-compose.
-- Certifique-se que nenhum serviço ou container esteja utilizando as portas 3001 e 27017.
-- Se estiver executando o Docker-compose da seção "Execução em modo de produção" execute o "Passo 2: Parar a aplicação", da referida seção.
-
-```
-docker run -d --rm --name mongodb \
-	-p 27017:27017 \
-	-v data:/data/db \
-	-e MONGO_INITDB_ROOT_USERNAME=admin \
-	-e MONGO_INITDB_ROOT_PASSWORD=admin \
-	mongo:6.0.6
-```
-
-Passo 3: Rodar o projeto - Certifique-se de estar na pasta raiz do projeto e execute o seguinte comando.
+Rodar o projeto - Certifique-se de estar na pasta raiz do projeto e execute o seguinte comando.
 
 ```
 npm run start:dev
 ```
 
-Passo 4: Parar a aplicação - Para parar a aplicação execute o seguinte comando no console em que estiver rodando a aplicação (nodemon).
+## Testar a API
 
+Para testar a funcionalidade da API pode ser utilizado um dos seguintes meios: Postman, Simulador na API e Extensão do Chrome para WS.
+A utilização dos três casos são mostrados no vídeo fazendo menção a URL em que a API está rodando.
+Aqui mostraremos como testar rodando local.
+
+### Postman
+Para fazer requisições ws com o [Postman](https://www.postman.com/).
+
+P.S.: Certifique-se da aplicação estar rodando na máquina local.
+
+**input**:  
+Crie um Request WebSocket.
+1. Em URL coloque a URL abaixo e clique em Connext
 ```
-Ctrl + C
-
-ou
-
-Command + C
+ws://localhost:3000?operation=input
 ```
-
-Passo 5: Parar o container - Para parar o container do MongoDB execute o seguinte comando.
-
+2. Em Message coloque
 ```
-docker stop mongodb
+{
+    "type": "beat"
+}
 ```
+3. Cada click em **send** funcionará como uma batida do coração.
 
-## Postman: Testar os endpoint
 
-Pode ser utilizado o aplicativo [Postman](https://www.postman.com/) para fazer requisições nos endpoints.
-Na raiz do projeto, na pasta "postman" tem os arquivos que podem ser importados no Postman. Importe o environment e collection.
+**output**:  
+Crie um Request WebSocket. Após conextar receberá os dados gerado pelo **input**
+
+1. Em URL coloque a URL abaixo e clique em Connext
+```
+ws://localhost:3000?operation=output
+```
 
 <br>
 
@@ -242,7 +225,7 @@ npm run lint:fix
 
 ## Prettier
 
-Formata os arquivos JavaScript (com extensão .js) no diretório 'src' e em todos dentro dele. Estando na raiz do projeto execute o seguinte comando:
+Formata os arquivos JavaScript (com extensão .ts) no diretório 'src' e em todos dentro dele. Estando na raiz do projeto execute o seguinte comando:
 
 ```
 npm run format
