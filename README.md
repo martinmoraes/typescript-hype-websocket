@@ -2,11 +2,13 @@
 
 Este projeto consiste em desenvolver uma API como parte do processo de recrutamento e avaliação para a empresa [Hype Empreendimentos](https://hypeempreendimentos.com.br/).
 
-## O teste
 
-Foram passadas as seguintes intruções para arealização do test:
+<BR>
 
-#### DESCRITIVO DA SOLUÇÃO
+## Requisitos e Instruções para o teste
+
+
+
 **Introdução**
 
 A Acme® é uma empresa de tecnologia que desenvolve sistemas para diversos segmentos da indústria mundial e se preza pela utilização de formas inovadoras para a resolução de problemas ligados ao dia-a-dia das pessoas.
@@ -56,7 +58,7 @@ protótipo em funcionamento com instruções para acesso e uso no README
 
 **Todos os dados desta prova são fictícios ou são de fontes abertas, servindo somente para a resolução desta prova.*
 
-<br>
+<br><BR>
 
 # Arquitetura
 
@@ -68,9 +70,12 @@ As principais partes da arquiterura são: Calculator, Service (heart_beats.servi
 
 - **Calculator**: É a função responsável por realizar o cálculo, atendendo a formula fornecida.
 
-- **Service**: O service é responsável por manter o estado e executar o "Calculator". O calculator é recebido por injeção de dependência.
+- **heart_beats.service**: O service é responsável por manter o estado e executar o "Calculator". O calculator é recebido por injeção de dependência.
 
-- **Server**: Consiste nas operações de inicializar os serviços WEB e WebSocket. O Server recebe [observador](https://learn.microsoft.com/pt-br/dotnet/standard/events/observer-design-pattern), que é o "Service". A cada batimento cardíaco o service é notificado.
+- **ws_server**: Consiste nas operações de inicializar os serviços WEB e WebSocket. O Server recebe [observador](https://learn.microsoft.com/pt-br/dotnet/standard/events/observer-design-pattern), que é o "Service". A cada batimento cardíaco o service é notificado.
+
+
+<BR><BR>
 
 ## Fluxo
 
@@ -92,7 +97,7 @@ Quando o sistema inicia, são executados os seguinte passos:
     - Um **cliente de output** indica na URL de conexão (ws://url_servidor_api:3000?**operation=output**), seu papel de "output".
     A cada batimento cardíaco recebem um objeto JSON de **output**. O sistema suporta vários clientes de output.
 
-<br>
+<br><BR>
 
 # Tecnologias utilizadas
 
@@ -106,11 +111,8 @@ Quando o sistema inicia, são executados os seguinte passos:
     - E roda todos os testes.
 - **lint-stageg**: Permite executar linters de código apenas nos arquivos modificados em um determinado commit.
 - **test coverage**: É uma métrica usada para medir a extensão em que o código de um programa é testado pelos casos de teste. Ele indica a porcentagem de código que é executado durante a execução dos testes automatizados. Neste projeto a cobertura de testes está em 100%.
+- **CI/CD**: Visando agilizar a integração do código (novas features, fix e etc..), bem como agilizar a entrega (deploy/ entrar em produção) foi utilizado GitHub Actions.
 
-## Regra de negocio
-
-- **decimal.js**: Biblioteca JavaScript que oferece suporte a operações matemáticas precisas e manipulação de números decimais. Ela foi projetada para superar as limitações de aritmética de ponto flutuante do JavaScript padrão, que pode resultar em imprecisões em cálculos envolvendo números decimais.
-- **node-input-validator**: Biblioteca para validação de entrada de dados em aplicativos Node.js. Ela fornece uma maneira simples e flexível de validar e sanitizar dados.
 
 ## Outras tecnologias
 
@@ -121,8 +123,90 @@ Quando o sistema inicia, são executados os seguinte passos:
 - **winston**: Biblioteca de registro (logging) para o Node.js. Ela fornece uma interface flexível e extensível para registrar mensagens e eventos nos aplicativos Node.js.
 - **ts-node-dev**: É uma ferramenta que agiliza o desenvolvimento, pois economiza tempo e esforço ao automatizar o processo de reinicialização do servidor sempre que necessário.
 
+
+<br><BR>
+
+
+# Testar a API
+
+Para testar a funcionalidade da API pode ser utilizado um dos seguintes meios: Postman ou Simulador da API.
+Segue instruções de como utilizar a API rodando local e remoto.
+
+P.S.: Para testar rodando local certifique-se que a aplicação esteja rodando na máquina local.
+
+## Postman
+Para fazer requisições ws com o [Postman](https://www.postman.com/).
+
+<br>
+
+**Simular o batimento cardiaco - input**:  
+Crie um Request WebSocket.
+1. Em URL, coloque uma das URL abaixo e clique em Connect
+
+Local
+```
+ws://localhost:3000?operation=input
+```
+Remoto
+```
+ws://89.116.212.179:3000?operation=input
+```
+2. Em Message coloque
+```
+{
+    "type": "beat"
+}
+```
+
+3. Cada click em **send** funcionará como um batida do coração.
+
+<br>
+
+**Receber os dados - output**:  
+Crie um Request WebSocket. Após conextar receberá os dados gerado pelo input
+
+1. Em URL coloque a URL abaixo e clique em Connext
+
+Local
+```
+ws://localhost:3000?operation=output
+```
+Remoto
+```
+ws://89.116.212.179:3000?operation=output
+```
+
+<br>
+
+## Simulador da API
+São páginas HTML que simulam o input e o output e fazem parte do projeto.
+
+<BR>
+
+**Simular o batimento cardíaco - input**:  
+
+Click [AQUI](http://89.116.212.179:3000/heart_beat_generator.html) e siga as instruções da página ou cole o seginte endereço em seu navegador e siga as intruções da página.
+
+```
+http://89.116.212.179:3000/heart_beat_generator.html
+```
+
+<BR>
+
+**Receber os dados - output**:  
+
+Click [AQUI](http://89.116.212.179:3000/heart_beat_receiver.html) ou cole o endereço abaixo em seu navegador. Os dados começarão a chegar. Certifique-se que um dos modos que simula o batimento cardíaco estaja em operação.
+
+```
+http://89.116.212.179:3000/heart_beat_receiver.html
+```
+
+
+
+<br><BR>
+
 # Instalação
-Os e
+
 
 ## Obtendo o projeto
 Passo 1: Clone o projeto. Na sua pasta de projetos execute o seguinte comando.
@@ -149,7 +233,7 @@ LOG_DIR=./log
 PORT=3000
 ```
 
-## Execução em modo de produção
+## Execução em modo de produção 
 
 Iniciar a aplicação - Ainda na pasta raiz do projeto execute o comando abaixo.
 
@@ -165,41 +249,8 @@ Rodar o projeto - Certifique-se de estar na pasta raiz do projeto e execute o se
 npm run start:dev
 ```
 
-## Testar a API
 
-Para testar a funcionalidade da API pode ser utilizado um dos seguintes meios: Postman, Simulador na API e Extensão do Chrome para WS.
-A utilização dos três casos são mostrados no vídeo fazendo menção a URL em que a API está rodando.
-Aqui mostraremos como testar rodando local.
-
-### Postman
-Para fazer requisições ws com o [Postman](https://www.postman.com/).
-
-P.S.: Certifique-se da aplicação estar rodando na máquina local.
-
-**input**:  
-Crie um Request WebSocket.
-1. Em URL coloque a URL abaixo e clique em Connext
-```
-ws://localhost:3000?operation=input
-```
-2. Em Message coloque
-```
-{
-    "type": "beat"
-}
-```
-3. Cada click em **send** funcionará como uma batida do coração.
-
-
-**output**:  
-Crie um Request WebSocket. Após conextar receberá os dados gerado pelo **input**
-
-1. Em URL coloque a URL abaixo e clique em Connext
-```
-ws://localhost:3000?operation=output
-```
-
-<br>
+<br><BR>
 
 # Testes
 
@@ -211,7 +262,7 @@ Os testes de unidade são uma prática de desenvolvimento de software em que uni
 npm run test
 ```
 
-<br>
+<br><BR>
 
 # Comandos
 
@@ -238,7 +289,3 @@ Verifica a cobertura de teste, Estando na raiz do projeto execute o seguinte com
 ```
 npm run test:coverage
 ```
-
-
-(http://89.116.212.179:3000/heart_beat_generator.html)[http://89.116.212.179:3000/heart_beat_generator.html]
-(http://89.116.212.179:3000/heart_beat_receiver.html)[http://89.116.212.179:3000/heart_beat_receiver.html]
