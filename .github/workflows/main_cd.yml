@@ -12,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Unit test
+    - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Unit test
       run: |
         npm run test
 
