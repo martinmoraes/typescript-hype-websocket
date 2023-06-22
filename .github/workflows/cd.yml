@@ -18,6 +18,7 @@ jobs:
         script: |
           cd ~/hbm
           git pull
+          nvm use
           npm install
           npm run build
           rm .env 
