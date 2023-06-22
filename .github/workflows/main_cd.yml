@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Unit test
+      run: |
+        npm run test
+
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
