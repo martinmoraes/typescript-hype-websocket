@@ -238,3 +238,7 @@ Verifica a cobertura de teste, Estando na raiz do projeto execute o seguinte com
 ```
 npm run test:coverage
 ```
+
+
+(http://89.116.212.179:3000/heart_beat_generator.html)[http://89.116.212.179:3000/heart_beat_generator.html]
+(http://89.116.212.179:3000/heart_beat_receiver.html)[http://89.116.212.179:3000/heart_beat_receiver.html]

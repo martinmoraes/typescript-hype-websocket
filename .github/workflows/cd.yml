@@ -1,0 +1,26 @@
+name: Deploy
+
+on: [push,workflow_dispatch]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd ~/hbm
+          git pull
+          npm install
+          npm run build
+          rm .env 
+          echo LOG_DIR=./log >> .env
+          echo PORT=3000 >> .env
+          pm2 restart index

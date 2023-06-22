@@ -24,7 +24,7 @@ export class WsServer {
   }
 
   listenWebServer() {
-    const port = process.env.PORT || 8100;
+    const port = process.env.PORT || 3000;
 
     this.app.use(express.static(path.join(__dirname, '..', '..', '..', 'public')));
 
