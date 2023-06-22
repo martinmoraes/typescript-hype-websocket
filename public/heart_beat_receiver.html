@@ -53,7 +53,10 @@
 </div>
 
   <script>
-    const socket = new WebSocket('ws://localhost:8100?operation=output'); 
+    const partialHost = window.location.href.substring(7)
+    const host = partialHost.substring(0, partialHost.indexOf('/'));
+
+    const socket = new WebSocket(`ws://${host}?operation=output`); 
 
     socket.onmessage = function(event) {
       const element = document.getElementById("showData");
