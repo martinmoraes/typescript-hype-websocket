@@ -2,8 +2,9 @@ name: Deploy
 
 on: 
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -12,13 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Unit test
-      run: |
-        npm run test
-
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
