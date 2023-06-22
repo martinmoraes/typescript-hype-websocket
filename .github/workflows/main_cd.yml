@@ -1,4 +1,4 @@
-name: Deploy HBM
+name: Deploy
 
 on: 
   push:
@@ -30,4 +30,4 @@ jobs:
           echo PORT=3000 >> .env
           pm2 restart index
     - name: Delete branch
-      run: git push origin --delete ${{ github.head_ref }}
+      run: git push --delete ${{ github.head_ref }}

@@ -1,9 +1,9 @@
-name: CI HBM
+name: CI
 
 on: [push, workflow_dispatch]
 
 jobs:
-  CI:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
