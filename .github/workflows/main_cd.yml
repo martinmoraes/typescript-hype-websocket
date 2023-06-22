@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - name: Delete branch
-      run: git push --delete ${{ github.head_ref }}
-      
+      run: git push origin --delete ${{ github.head_ref }}
+
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
