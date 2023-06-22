@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Delete branch
-      run: git push origin --delete ${{ github.head_ref }}
-
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
